@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:flutter_training/views/weather_view.dart';
 
 void main() {
@@ -18,5 +17,3 @@ class MainApp extends StatelessWidget {
     );
   }
 }
-
-
