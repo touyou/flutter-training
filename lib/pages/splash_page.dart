@@ -14,7 +14,6 @@ class SplashPageState extends State<SplashPage> with AfterLayoutMixin {
     Future.delayed(const Duration(milliseconds: 500), () async {
       await Navigator.pushNamed(context, '/main');
     });
-    super.afterFirstLayout();
   }
 
   @override
