@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_training/constants/weather.dart';
 import 'package:flutter_training/providers/yumemi_weather_provider.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -10,7 +10,7 @@ class WeatherView extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final yumemiWeather = ref.watch(yumemiWeatherProvider);
-    final weather = useState('');
+    final weather = useState<Weather?>(null);
 
     return SizedBox.expand(
       child: FractionallySizedBox(
@@ -23,9 +23,7 @@ class WeatherView extends HookConsumerWidget {
               children: [
                 AspectRatio(
                     aspectRatio: 1,
-                    child: weather.value != ''
-                        ? SvgPicture.asset('assets/images/${weather.value}.svg')
-                        : const Placeholder()),
+                    child: weather.value?.svg ?? const Placeholder()),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 16),
                   child: Row(
@@ -75,7 +73,8 @@ class WeatherView extends HookConsumerWidget {
                           onPressed: () {
                             final weatherCondition =
                                 yumemiWeather.fetchSimpleWeather();
-                            weather.value = weatherCondition;
+                            weather.value =
+                                Weather.values.byName(weatherCondition);
                           },
                           child: const Text(
                             'Reload',
