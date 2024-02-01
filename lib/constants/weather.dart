@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_training/gen/assets.gen.dart';
 
 enum Weather {
   sunny,
@@ -11,11 +12,11 @@ extension WeatherExt on Weather {
   String get assetName {
     switch (this) {
       case Weather.sunny:
-        return 'assets/images/sunny.svg';
+        return Assets.images.sunny;
       case Weather.cloudy:
-        return 'assets/images/cloudy.svg';
+        return Assets.images.cloudy;
       case Weather.rainy:
-        return 'assets/images/rainy.svg';
+        return Assets.images.rainy;
     }
   }
 
