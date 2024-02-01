@@ -1,3 +1,7 @@
 # flutter_training
 
-A new Flutter project.
+yumemi training
+
+## Dependencies
+
+- fvm
