@@ -4,10 +4,12 @@ import 'package:flutter_training/components/temperature_text.dart';
 import 'package:flutter_training/components/weather_button.dart';
 import 'package:flutter_training/components/weather_image.dart';
 import 'package:flutter_training/constants/weather.dart';
+import 'package:flutter_training/mixin/simple_dialog_mixin.dart';
 import 'package:flutter_training/providers/yumemi_weather_provider.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:yumemi_weather/yumemi_weather.dart';
 
-class WeatherView extends HookConsumerWidget {
+class WeatherView extends HookConsumerWidget with SimpleDialogMixin {
   const WeatherView({super.key});
 
   @override
@@ -24,10 +26,6 @@ class WeatherView extends HookConsumerWidget {
             Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                AspectRatio(
-                  aspectRatio: 1,
-                  child: weather.value?.svg ?? const Placeholder(),
-                ),
                 WeatherImage(
                   weather: weather.value,
                 ),
@@ -61,11 +59,15 @@ class WeatherView extends HookConsumerWidget {
                         text: 'Close',
                       ),
                       WeatherButton(
-                        onPressed: () {
-                          final weatherCondition =
-                              yumemiWeather.fetchSimpleWeather();
-                          weather.value =
-                              Weather.values.byName(weatherCondition);
+                        onPressed: () async {
+                          try {
+                            final weatherCondition =
+                                yumemiWeather.fetchThrowsWeather('tokyo');
+                            weather.value =
+                                Weather.values.byName(weatherCondition);
+                          } on YumemiWeatherError {
+                            await showSimpleDialog(context, 'APIエラー');
+                          }
                         },
                         text: 'Reload',
                       ),
