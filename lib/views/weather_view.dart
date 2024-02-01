@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_training/components/weather_button.dart';
 import 'package:flutter_training/constants/weather.dart';
 import 'package:flutter_training/providers/yumemi_weather_provider.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -60,30 +61,20 @@ class WeatherView extends HookConsumerWidget {
                   const SizedBox(height: 80),
                   Row(
                     children: [
-                      Expanded(
-                        child: TextButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          child: const Text(
-                            'Close',
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
+                      WeatherButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        text: 'Close',
                       ),
-                      Expanded(
-                        child: TextButton(
-                          onPressed: () {
-                            final weatherCondition =
-                                yumemiWeather.fetchSimpleWeather();
-                            weather.value =
-                                Weather.values.byName(weatherCondition);
-                          },
-                          child: const Text(
-                            'Reload',
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
+                      WeatherButton(
+                        onPressed: () {
+                          final weatherCondition =
+                              yumemiWeather.fetchSimpleWeather();
+                          weather.value =
+                              Weather.values.byName(weatherCondition);
+                        },
+                        text: 'Reload',
                       ),
                     ],
                   ),
