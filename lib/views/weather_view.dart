@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_training/components/temperature_text.dart';
 import 'package:flutter_training/components/weather_button.dart';
 import 'package:flutter_training/constants/weather.dart';
 import 'package:flutter_training/providers/yumemi_weather_provider.dart';
@@ -26,29 +27,17 @@ class WeatherView extends HookConsumerWidget {
                   aspectRatio: 1,
                   child: weather.value?.svg ?? const Placeholder(),
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 16),
+                const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 16),
                   child: Row(
                     children: [
-                      Expanded(
-                        child: Text(
-                          '** ℃',
-                          textAlign: TextAlign.center,
-                          style: Theme.of(context)
-                              .textTheme
-                              .labelLarge!
-                              .copyWith(color: Colors.blue),
-                        ),
+                      TemperatureText(
+                        temperature: '** ℃',
+                        color: Colors.blue,
                       ),
-                      Expanded(
-                        child: Text(
-                          '** ℃',
-                          textAlign: TextAlign.center,
-                          style: Theme.of(context)
-                              .textTheme
-                              .labelLarge!
-                              .copyWith(color: Colors.red),
-                        ),
+                      TemperatureText(
+                        temperature: '** ℃',
+                        color: Colors.red,
                       ),
                     ],
                   ),
