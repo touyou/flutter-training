@@ -6,10 +6,11 @@ mixin SimpleDialogMixin on Widget {
       context: context,
       barrierDismissible: false,
       builder: (context) {
-        return SimpleDialog(
-          title: Text(message),
-          children: [
-            SimpleDialogOption(
+        return AlertDialog(
+          title: const Text('エラー'),
+          content: Text(message),
+          actions: [
+            TextButton(
               onPressed: () {
                 Navigator.pop(context);
               },
