@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_training/components/temperature_text.dart';
 import 'package:flutter_training/components/weather_button.dart';
+import 'package:flutter_training/components/weather_image.dart';
 import 'package:flutter_training/constants/weather.dart';
 import 'package:flutter_training/providers/yumemi_weather_provider.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -26,6 +27,9 @@ class WeatherView extends HookConsumerWidget {
                 AspectRatio(
                   aspectRatio: 1,
                   child: weather.value?.svg ?? const Placeholder(),
+                ),
+                WeatherImage(
+                  weather: weather.value,
                 ),
                 const Padding(
                   padding: EdgeInsets.symmetric(vertical: 16),
