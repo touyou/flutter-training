@@ -22,8 +22,9 @@ class WeatherView extends HookConsumerWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 AspectRatio(
-                    aspectRatio: 1,
-                    child: weather.value?.svg ?? const Placeholder()),
+                  aspectRatio: 1,
+                  child: weather.value?.svg ?? const Placeholder(),
+                ),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 16),
                   child: Row(
