@@ -64,9 +64,11 @@ class WeatherView extends HookConsumerWidget with SimpleDialogMixin {
                             final weatherCondition =
                                 yumemiWeather.fetchThrowsWeather('tokyo');
                             weather.value =
-                                Weather.values.byName(weatherCondition);
+                                WeatherExt.fromString(weatherCondition);
                           } on YumemiWeatherError {
                             await showSimpleDialog(context, 'APIエラー');
+                          } on Exception {
+                            await showSimpleDialog(context, '引数エラー');
                           }
                         },
                         text: 'Reload',

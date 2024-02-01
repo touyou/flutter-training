@@ -22,4 +22,17 @@ extension WeatherExt on Weather {
   Widget get svg {
     return SvgPicture.asset(assetName);
   }
+
+  static Weather fromString(String name) {
+    switch (name) {
+      case 'sunny':
+        return Weather.sunny;
+      case 'cloudy':
+        return Weather.cloudy;
+      case 'rainy':
+        return Weather.rainy;
+      default:
+        throw Exception('Unknown weather: $name');
+    }
+  }
 }
