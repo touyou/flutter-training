@@ -53,24 +53,12 @@ class WeatherView extends HookConsumerWidget with SimpleDialogMixin {
                   Row(
                     children: [
                       WeatherButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
+                        onPressed: () => _closePage(context),
                         text: 'Close',
                       ),
                       WeatherButton(
-                        onPressed: () async {
-                          try {
-                            final weatherCondition =
-                                yumemiWeather.fetchThrowsWeather('tokyo');
-                            weather.value =
-                                WeatherExt.fromString(weatherCondition);
-                          } on YumemiWeatherError {
-                            await showSimpleDialog(context, 'APIエラー');
-                          } on Exception {
-                            await showSimpleDialog(context, '引数エラー');
-                          }
-                        },
+                        onPressed: () async =>
+                            _reloadWeather(context, yumemiWeather, weather),
                         text: 'Reload',
                       ),
                     ],
@@ -82,5 +70,21 @@ class WeatherView extends HookConsumerWidget with SimpleDialogMixin {
         ),
       ),
     );
+  }
+
+  void _closePage(BuildContext context) {
+    Navigator.pop(context);
+  }
+
+  Future<void> _reloadWeather(BuildContext context, YumemiWeather yumemiWeather,
+      ValueNotifier<Weather?> weather) async {
+    try {
+      final weatherCondition = yumemiWeather.fetchThrowsWeather('tokyo');
+      weather.value = WeatherExt.fromString(weatherCondition);
+    } on YumemiWeatherError {
+      await showSimpleDialog(context, 'APIエラー');
+    } on Exception {
+      await showSimpleDialog(context, '引数エラー');
+    }
   }
 }
