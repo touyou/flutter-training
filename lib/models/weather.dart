@@ -1,3 +1,5 @@
+import 'package:flutter_training/converters/date_time_converter.dart';
+import 'package:flutter_training/converters/weather_condition_converter.dart';
 import 'package:flutter_training/models/weather_condition.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -15,14 +17,4 @@ class Weather with _$Weather {
 
   factory Weather.fromJson(Map<String, dynamic> json) =>
       _$WeatherFromJson(json);
-}
-
-class DateTimeConverter implements JsonConverter<DateTime, String> {
-  const DateTimeConverter();
-
-  @override
-  DateTime fromJson(String json) => DateTime.parse(json);
-
-  @override
-  String toJson(DateTime object) => object.toIso8601String();
 }
