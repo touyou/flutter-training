@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_training/constants/weather.dart';
+import 'package:flutter_training/constants/weather_condition.dart';
 
 class WeatherImage extends StatelessWidget {
   const WeatherImage({
@@ -8,7 +8,7 @@ class WeatherImage extends StatelessWidget {
     super.key,
   });
 
-  final Weather? weather;
+  final WeatherCondition? weather;
 
   @override
   Widget build(BuildContext context) {
@@ -21,6 +21,6 @@ class WeatherImage extends StatelessWidget {
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
-    properties.add(EnumProperty<Weather>('weather', weather));
+    properties.add(EnumProperty<WeatherCondition>('weather', weather));
   }
 }

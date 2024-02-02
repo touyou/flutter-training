@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_training/components/temperature_text.dart';
 import 'package:flutter_training/components/weather_button.dart';
 import 'package:flutter_training/components/weather_image.dart';
-import 'package:flutter_training/constants/weather.dart';
 import 'package:flutter_training/mixin/simple_dialog_mixin.dart';
+import 'package:flutter_training/providers/weather_provider.dart';
 import 'package:flutter_training/providers/yumemi_weather_provider.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:yumemi_weather/yumemi_weather.dart';
@@ -14,8 +13,7 @@ class WeatherView extends HookConsumerWidget with SimpleDialogMixin {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final yumemiWeather = ref.watch(yumemiWeatherProvider);
-    final weather = useState<Weather?>(null);
+    final weather = ref.watch(weatherStateProvider);
 
     return SizedBox.expand(
       child: FractionallySizedBox(
@@ -27,18 +25,18 @@ class WeatherView extends HookConsumerWidget with SimpleDialogMixin {
               mainAxisSize: MainAxisSize.min,
               children: [
                 WeatherImage(
-                  weather: weather.value,
+                  weather: weather?.weatherCondition,
                 ),
-                const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 16),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 16),
                   child: Row(
                     children: [
                       TemperatureText(
-                        temperature: '** ℃',
+                        temperature: weather?.minTemperature,
                         color: Colors.blue,
                       ),
                       TemperatureText(
-                        temperature: '** ℃',
+                        temperature: weather?.maxTemperature,
                         color: Colors.red,
                       ),
                     ],
@@ -57,8 +55,7 @@ class WeatherView extends HookConsumerWidget with SimpleDialogMixin {
                         text: 'Close',
                       ),
                       WeatherButton(
-                        onPressed: () async =>
-                            _reloadWeather(context, yumemiWeather, weather),
+                        onPressed: () async => _reloadWeather(context, ref),
                         text: 'Reload',
                       ),
                     ],
@@ -78,12 +75,18 @@ class WeatherView extends HookConsumerWidget with SimpleDialogMixin {
 
   Future<void> _reloadWeather(
     BuildContext context,
-    YumemiWeather yumemiWeather,
-    ValueNotifier<Weather?> weather,
+    WidgetRef ref,
   ) async {
+    const jsonText = '''
+      {
+        "area": "tokyo",
+        "date": "2020-04-01T12:00:00+09:00"
+      }
+    ''';
     try {
-      final weatherCondition = yumemiWeather.fetchThrowsWeather('tokyo');
-      weather.value = WeatherExt.fromString(weatherCondition);
+      final weatherCondition =
+          ref.watch(yumemiWeatherProvider).fetchWeather(jsonText);
+      ref.read(weatherStateProvider.notifier).setByJson(weatherCondition);
     } on YumemiWeatherError {
       await showSimpleDialog(context, 'APIエラー');
     } on Exception {

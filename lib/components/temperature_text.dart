@@ -8,14 +8,14 @@ class TemperatureText extends StatelessWidget {
     super.key,
   });
 
-  final String temperature;
+  final int? temperature;
   final Color color;
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
       child: Text(
-        temperature,
+        '${temperature ?? '**'} ℃',
         textAlign: TextAlign.center,
         style: Theme.of(context).textTheme.labelLarge!.copyWith(color: color),
       ),
@@ -25,7 +25,7 @@ class TemperatureText extends StatelessWidget {
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
-    properties.add(StringProperty('temperature', temperature));
     properties.add(ColorProperty('color', color));
+    properties.add(IntProperty('temperature', temperature));
   }
 }
