@@ -37,4 +37,3 @@ extension WeatherConditionExt on WeatherCondition {
     }
   }
 }
-
