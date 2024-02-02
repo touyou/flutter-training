@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_training/components/temperature_text.dart';
+import 'package:flutter_training/components/weather_button.dart';
+import 'package:flutter_training/components/weather_image.dart';
 import 'package:flutter_training/constants/weather.dart';
+import 'package:flutter_training/mixin/simple_dialog_mixin.dart';
 import 'package:flutter_training/providers/yumemi_weather_provider.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:yumemi_weather/yumemi_weather.dart';
 
-class WeatherView extends HookConsumerWidget {
+class WeatherView extends HookConsumerWidget with SimpleDialogMixin {
   const WeatherView({super.key});
 
   @override
@@ -21,33 +26,20 @@ class WeatherView extends HookConsumerWidget {
             Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                AspectRatio(
-                  aspectRatio: 1,
-                  child: weather.value?.svg ?? const Placeholder(),
+                WeatherImage(
+                  weather: weather.value,
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 16),
+                const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 16),
                   child: Row(
                     children: [
-                      Expanded(
-                        child: Text(
-                          '** ℃',
-                          textAlign: TextAlign.center,
-                          style: Theme.of(context)
-                              .textTheme
-                              .labelLarge!
-                              .copyWith(color: Colors.blue),
-                        ),
+                      TemperatureText(
+                        temperature: '** ℃',
+                        color: Colors.blue,
                       ),
-                      Expanded(
-                        child: Text(
-                          '** ℃',
-                          textAlign: TextAlign.center,
-                          style: Theme.of(context)
-                              .textTheme
-                              .labelLarge!
-                              .copyWith(color: Colors.red),
-                        ),
+                      TemperatureText(
+                        temperature: '** ℃',
+                        color: Colors.red,
                       ),
                     ],
                   ),
@@ -60,30 +52,14 @@ class WeatherView extends HookConsumerWidget {
                   const SizedBox(height: 80),
                   Row(
                     children: [
-                      Expanded(
-                        child: TextButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          child: const Text(
-                            'Close',
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
+                      WeatherButton(
+                        onPressed: () => _closePage(context),
+                        text: 'Close',
                       ),
-                      Expanded(
-                        child: TextButton(
-                          onPressed: () {
-                            final weatherCondition =
-                                yumemiWeather.fetchSimpleWeather();
-                            weather.value =
-                                Weather.values.byName(weatherCondition);
-                          },
-                          child: const Text(
-                            'Reload',
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
+                      WeatherButton(
+                        onPressed: () async =>
+                            _reloadWeather(context, yumemiWeather, weather),
+                        text: 'Reload',
                       ),
                     ],
                   ),
@@ -94,5 +70,24 @@ class WeatherView extends HookConsumerWidget {
         ),
       ),
     );
+  }
+
+  void _closePage(BuildContext context) {
+    Navigator.pop(context);
+  }
+
+  Future<void> _reloadWeather(
+    BuildContext context,
+    YumemiWeather yumemiWeather,
+    ValueNotifier<Weather?> weather,
+  ) async {
+    try {
+      final weatherCondition = yumemiWeather.fetchThrowsWeather('tokyo');
+      weather.value = WeatherExt.fromString(weatherCondition);
+    } on YumemiWeatherError {
+      await showSimpleDialog(context, 'APIエラー');
+    } on Exception {
+      await showSimpleDialog(context, '引数エラー');
+    }
   }
 }
