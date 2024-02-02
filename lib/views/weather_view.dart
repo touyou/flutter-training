@@ -28,16 +28,16 @@ class WeatherView extends HookConsumerWidget with SimpleDialogMixin {
                 WeatherImage(
                   weather: weather?.weatherCondition,
                 ),
-                const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 16),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 16),
                   child: Row(
                     children: [
                       TemperatureText(
-                        temperature: '** ℃',
+                        temperature: weather?.minTemperature,
                         color: Colors.blue,
                       ),
                       TemperatureText(
-                        temperature: '** ℃',
+                        temperature: weather?.maxTemperature,
                         color: Colors.red,
                       ),
                     ],
