@@ -81,8 +81,16 @@ class WeatherView extends HookConsumerWidget with SimpleDialogMixin {
     YumemiWeather yumemiWeather,
     ValueNotifier<Weather?> weather,
   ) async {
+    const jsonText = '''
+      {
+        "area": "tokyo",
+        "date": "2020-04-01T12:00:00+09:00"
+      }
+    ''';
     try {
-      final weatherCondition = yumemiWeather.fetchThrowsWeather('tokyo');
+      // NOTE: {"weather_condition":"cloudy","max_temperature":27,"min_temperature":9,"date":"2020-04-01T12:00:00+09:00"}
+      final weatherCondition = yumemiWeather.fetchWeather(jsonText);
+      print(weatherCondition);
       weather.value = WeatherExt.fromString(weatherCondition);
     } on YumemiWeatherError {
       await showSimpleDialog(context, 'APIエラー');
