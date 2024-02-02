@@ -1,4 +1,4 @@
-```marmaid
+```mermaid
 flowchart TB
   subgraph Arrows
     direction LR
