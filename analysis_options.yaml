@@ -4,3 +4,8 @@ include: package:yumemi_lints/flutter/3.16.8/recommended.yaml
 analyzer:
   plugins:
     - custom_lint
+  errors:
+    invalid_annotation_target: ignore
+  exclude:
+    - '**.freezed.dart'
+    - '**.g.dart'
