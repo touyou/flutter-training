@@ -12,7 +12,7 @@ class WeatherState extends _$WeatherState {
   Weather? build() => null;
 
   void setByJson(String json) {
-    final map = jsonDecode(json);
+    final map = jsonDecode(json) as Map<String, dynamic>;
     final weatherCondition =
         WeatherConditionExt.fromString(map['weather_condition'] as String);
     final minTemperature = map['min_temperature'] as int;
