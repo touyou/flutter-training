@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_training/constants/weather_condition.dart';
+import 'package:flutter_training/models/weather_condition.dart';
 
 class WeatherImage extends StatelessWidget {
   const WeatherImage({

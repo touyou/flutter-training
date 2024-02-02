@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:flutter_training/constants/weather.dart';
-import 'package:flutter_training/constants/weather_condition.dart';
+import 'package:flutter_training/models/weather.dart';
+import 'package:flutter_training/models/weather_condition.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'weather_provider.g.dart';

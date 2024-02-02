@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_training/gen/assets.gen.dart';
+import 'package:json_annotation/json_annotation.dart';
 
 enum WeatherCondition {
   sunny,
@@ -35,5 +36,23 @@ extension WeatherConditionExt on WeatherCondition {
       default:
         throw Exception('Unknown weather: $name');
     }
+  }
+}
+
+class WeatherConditionConverter
+    implements JsonConverter<WeatherCondition?, String?> {
+  const WeatherConditionConverter();
+
+  @override
+  WeatherCondition? fromJson(String? json) {
+    if (json == null) {
+      return null;
+    }
+    return WeatherConditionExt.fromString(json);
+  }
+
+  @override
+  String? toJson(WeatherCondition? object) {
+    return object?.toString().split('.').last;
   }
 }
