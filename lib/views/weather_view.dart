@@ -1,8 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_training/components/temperature_text.dart';
 import 'package:flutter_training/components/weather_button.dart';
 import 'package:flutter_training/components/weather_image.dart';
 import 'package:flutter_training/mixin/simple_dialog_mixin.dart';
+import 'package:flutter_training/models/weather_request.dart';
 import 'package:flutter_training/providers/weather_provider.dart';
 import 'package:flutter_training/providers/yumemi_weather_provider.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -73,16 +76,10 @@ class WeatherView extends HookConsumerWidget with SimpleDialogMixin {
     Navigator.pop(context);
   }
 
-  Future<void> _reloadWeather(
-    BuildContext context,
-    WidgetRef ref,
-  ) async {
-    const jsonText = '''
-      {
-        "area": "tokyo",
-        "date": "2020-04-01T12:00:00+09:00"
-      }
-    ''';
+  Future<void> _reloadWeather(BuildContext context,
+      WidgetRef ref,) async {
+    final weatherRequest = WeatherRequest(area: 'tokyo', date: DateTime.now());
+    final jsonText = jsonEncode(weatherRequest.toJson());
     try {
       final weatherCondition =
           ref.watch(yumemiWeatherProvider).fetchWeather(jsonText);
