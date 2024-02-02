@@ -76,8 +76,11 @@ class WeatherView extends HookConsumerWidget with SimpleDialogMixin {
     Navigator.pop(context);
   }
 
-  Future<void> _reloadWeather(BuildContext context, YumemiWeather yumemiWeather,
-      ValueNotifier<Weather?> weather) async {
+  Future<void> _reloadWeather(
+    BuildContext context,
+    YumemiWeather yumemiWeather,
+    ValueNotifier<Weather?> weather,
+  ) async {
     try {
       final weatherCondition = yumemiWeather.fetchThrowsWeather('tokyo');
       weather.value = WeatherExt.fromString(weatherCondition);
