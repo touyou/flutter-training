@@ -13,7 +13,6 @@ class WeatherView extends HookConsumerWidget with SimpleDialogMixin {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final yumemiWeather = ref.watch(yumemiWeatherProvider);
     final weather = ref.watch(weatherStateProvider);
 
     return SizedBox.expand(
@@ -56,8 +55,7 @@ class WeatherView extends HookConsumerWidget with SimpleDialogMixin {
                         text: 'Close',
                       ),
                       WeatherButton(
-                        onPressed: () async =>
-                            _reloadWeather(context, yumemiWeather, ref),
+                        onPressed: () async => _reloadWeather(context, ref),
                         text: 'Reload',
                       ),
                     ],
@@ -77,7 +75,6 @@ class WeatherView extends HookConsumerWidget with SimpleDialogMixin {
 
   Future<void> _reloadWeather(
     BuildContext context,
-    YumemiWeather yumemiWeather,
     WidgetRef ref,
   ) async {
     const jsonText = '''
@@ -87,7 +84,8 @@ class WeatherView extends HookConsumerWidget with SimpleDialogMixin {
       }
     ''';
     try {
-      final weatherCondition = yumemiWeather.fetchWeather(jsonText);
+      final weatherCondition =
+          ref.watch(yumemiWeatherProvider).fetchWeather(jsonText);
       ref.read(weatherStateProvider.notifier).setByJson(weatherCondition);
     } on YumemiWeatherError {
       await showSimpleDialog(context, 'APIエラー');
