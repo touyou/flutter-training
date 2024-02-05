@@ -21,12 +21,10 @@ WeatherRequest _$WeatherRequestFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$WeatherRequest {
   String get area => throw _privateConstructorUsedError;
-
   @DateTimeConverter()
   DateTime get date => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
   @JsonKey(ignore: true)
   $WeatherRequestCopyWith<WeatherRequest> get copyWith =>
       throw _privateConstructorUsedError;
@@ -37,7 +35,6 @@ abstract class $WeatherRequestCopyWith<$Res> {
   factory $WeatherRequestCopyWith(
           WeatherRequest value, $Res Function(WeatherRequest) then) =
       _$WeatherRequestCopyWithImpl<$Res, WeatherRequest>;
-
   @useResult
   $Res call({String area, @DateTimeConverter() DateTime date});
 }
@@ -49,7 +46,6 @@ class _$WeatherRequestCopyWithImpl<$Res, $Val extends WeatherRequest>
 
   // ignore: unused_field
   final $Val _value;
-
   // ignore: unused_field
   final $Res Function($Val) _then;
 
@@ -78,7 +74,6 @@ abstract class _$$WeatherRequestImplCopyWith<$Res>
   factory _$$WeatherRequestImplCopyWith(_$WeatherRequestImpl value,
           $Res Function(_$WeatherRequestImpl) then) =
       __$$WeatherRequestImplCopyWithImpl<$Res>;
-
   @override
   @useResult
   $Res call({String area, @DateTimeConverter() DateTime date});
@@ -170,11 +165,9 @@ abstract class _WeatherRequest implements WeatherRequest {
 
   @override
   String get area;
-
   @override
   @DateTimeConverter()
   DateTime get date;
-
   @override
   @JsonKey(ignore: true)
   _$$WeatherRequestImplCopyWith<_$WeatherRequestImpl> get copyWith =>

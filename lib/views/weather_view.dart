@@ -1,13 +1,11 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_training/components/temperature_text.dart';
 import 'package:flutter_training/components/weather_button.dart';
 import 'package:flutter_training/components/weather_image.dart';
 import 'package:flutter_training/mixin/simple_dialog_mixin.dart';
 import 'package:flutter_training/models/weather_request.dart';
+import 'package:flutter_training/providers/fetch_weather_provider.dart';
 import 'package:flutter_training/providers/weather_provider.dart';
-import 'package:flutter_training/providers/yumemi_weather_provider.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:yumemi_weather/yumemi_weather.dart';
 
@@ -76,18 +74,28 @@ class WeatherView extends HookConsumerWidget with SimpleDialogMixin {
     Navigator.pop(context);
   }
 
-  Future<void> _reloadWeather(BuildContext context,
-      WidgetRef ref,) async {
+  Future<void> _reloadWeather(
+    BuildContext context,
+    WidgetRef ref,
+  ) async {
     final weatherRequest = WeatherRequest(area: 'tokyo', date: DateTime.now());
-    final jsonText = jsonEncode(weatherRequest.toJson());
-    try {
-      final weatherCondition =
-          ref.watch(yumemiWeatherProvider).fetchWeather(jsonText);
-      ref.read(weatherStateProvider.notifier).setByJson(weatherCondition);
-    } on YumemiWeatherError {
-      await showSimpleDialog(context, 'APIエラー');
-    } on Exception {
-      await showSimpleDialog(context, '引数エラー');
-    }
+    await ref
+        .watch(fetchWeatherProvider(weatherRequest: weatherRequest)
+            .select((value) => value))
+        .when(
+      data: (data) {
+        ref.read(weatherStateProvider.notifier).setByJson(data);
+      },
+      error: (error, _) async {
+        if (error is YumemiWeatherError) {
+          await showSimpleDialog(context, 'APIエラー');
+        } else {
+          await showSimpleDialog(context, 'エラー');
+        }
+      },
+      loading: () {
+        // do nothing
+      },
+    );
   }
 }
