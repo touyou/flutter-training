@@ -18,11 +18,8 @@ flowchart TB
     Provider[[provider]];
   end
 
-  weatherStateProvider[["weatherStateProvider"]];
-  yumemiWeatherProvider[["yumemiWeatherProvider"]];
-  WeatherView((WeatherView));
+  fetchWeatherProvider[["fetchWeatherProvider"]];
+  WeatherStateView((WeatherStateView));
 
-  weatherStateProvider ==> WeatherView;
-  yumemiWeatherProvider ==> WeatherView;
-  weatherStateProvider -.-> WeatherView;
+  fetchWeatherProvider ==> WeatherStateView;
 ```

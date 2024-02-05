@@ -6,7 +6,7 @@ part of 'fetch_weather_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$fetchWeatherHash() => r'494cd2b4b8fe65e772074137def4ea2c57f27603';
+String _$fetchWeatherHash() => r'4d1901473911b980f73126a94c44b32e4c54b589';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -34,7 +34,7 @@ class _SystemHash {
 const fetchWeatherProvider = FetchWeatherFamily();
 
 /// See also [fetchWeather].
-class FetchWeatherFamily extends Family<AsyncValue<String>> {
+class FetchWeatherFamily extends Family<AsyncValue<Weather>> {
   /// See also [fetchWeather].
   const FetchWeatherFamily();
 
@@ -72,7 +72,7 @@ class FetchWeatherFamily extends Family<AsyncValue<String>> {
 }
 
 /// See also [fetchWeather].
-class FetchWeatherProvider extends AutoDisposeFutureProvider<String> {
+class FetchWeatherProvider extends AutoDisposeFutureProvider<Weather> {
   /// See also [fetchWeather].
   FetchWeatherProvider({
     required WeatherRequest weatherRequest,
@@ -107,7 +107,7 @@ class FetchWeatherProvider extends AutoDisposeFutureProvider<String> {
 
   @override
   Override overrideWith(
-    FutureOr<String> Function(FetchWeatherRef provider) create,
+    FutureOr<Weather> Function(FetchWeatherRef provider) create,
   ) {
     return ProviderOverride(
       origin: this,
@@ -124,7 +124,7 @@ class FetchWeatherProvider extends AutoDisposeFutureProvider<String> {
   }
 
   @override
-  AutoDisposeFutureProviderElement<String> createElement() {
+  AutoDisposeFutureProviderElement<Weather> createElement() {
     return _FetchWeatherProviderElement(this);
   }
 
@@ -143,13 +143,13 @@ class FetchWeatherProvider extends AutoDisposeFutureProvider<String> {
   }
 }
 
-mixin FetchWeatherRef on AutoDisposeFutureProviderRef<String> {
+mixin FetchWeatherRef on AutoDisposeFutureProviderRef<Weather> {
   /// The parameter `weatherRequest` of this provider.
   WeatherRequest get weatherRequest;
 }
 
 class _FetchWeatherProviderElement
-    extends AutoDisposeFutureProviderElement<String> with FetchWeatherRef {
+    extends AutoDisposeFutureProviderElement<Weather> with FetchWeatherRef {
   _FetchWeatherProviderElement(super.provider);
 
   @override
