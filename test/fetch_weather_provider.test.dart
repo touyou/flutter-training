@@ -65,7 +65,7 @@ void main() {
           weatherCondition: WeatherCondition.sunny,
           minTemperature: 20,
           maxTemperature: 30,
-          date: DateTime(2022, 1),
+          date: DateTime(2022),
         ),
       ),
     );
