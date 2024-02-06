@@ -46,6 +46,7 @@ class WeatherStateView extends ConsumerWidget {
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
     properties.add(
-        DiagnosticsProperty<WeatherRequest>('weatherRequest', weatherRequest));
+      DiagnosticsProperty<WeatherRequest>('weatherRequest', weatherRequest),
+    );
   }
 }

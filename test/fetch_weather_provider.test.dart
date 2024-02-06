@@ -30,14 +30,16 @@ ProviderContainer createContainer({
 void main() {
   final yumemiWeather = MockYumemiWeather();
   test('fetch weather', () async {
-    when(yumemiWeather.fetchWeather(any)).thenAnswer((_) => '''
+    when(yumemiWeather.fetchWeather(any)).thenAnswer(
+      (_) => '''
       {
         "weather_condition": "sunny",
         "min_temperature": 20,
         "max_temperature": 30,
         "date": "2022-01-01"
       }
-    ''');
+    ''',
+    );
     final container = createContainer(
       overrides: [
         yumemiWeatherProvider.overrideWith(
@@ -63,7 +65,7 @@ void main() {
           weatherCondition: WeatherCondition.sunny,
           minTemperature: 20,
           maxTemperature: 30,
-          date: DateTime(2022, 1, 1),
+          date: DateTime(2022, 1),
         ),
       ),
     );
