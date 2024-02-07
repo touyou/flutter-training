@@ -26,7 +26,7 @@ void main() {
               maxTemperature: 20,
               date: DateTime.now(),
             );
-          })
+          }),
         ],
         child: Directionality(
           textDirection: TextDirection.ltr,
